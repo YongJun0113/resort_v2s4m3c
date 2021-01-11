@@ -1,0 +1,61 @@
+<!DOCTYPE html> 
+<html lang="ko"> 
+<head> 
+<meta charset="UTF-8"> 
+<title></title> 
+<script type="text/JavaScript"
+        src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<link href="../css/style.css" rel="Stylesheet" type="text/css">
+       
+<script type="text/javascript">
+$(function() {
+    $('#btn_send').on('click',send);
+  });
+  
+  // jQuery ajax 요청
+  function send() {
+    var params = "";
+  $.ajax({
+    url: './json_object.jsp',
+    type: 'get',  // get
+    cache: false, // 응답 결과 임시 저장 취소
+    async: true,  // true: 비동기 통신
+    dataType: 'json', // 응답 형식: json, html, xml...
+    data: params,      // 데이터
+    success: function(rdata) { // 응답이 온경우
+      var str = '';
+      if (rdata.math > rdata.English){
+    	    str += '수학 우수 ' + '\n';
+          str += 'name: ' + rdata.name + '\n';
+          str += 'math:' + rdata.math + '\n';
+          str += 'English:' + rdata.English;
+      }else{
+          str += '영어 우수 ' + '\n';
+          str += 'name: ' + rdata.name + '\n';
+          str += 'math:' + rdata.math + '\n';
+          str += 'English:' + rdata.English;
+      }
+      console.log(str);
+    },
+    // Ajax 통신 에러, 응답 코드가 200이 아닌경우, dataType이 다른경우 
+    error: function(request, status, error) { // callback 함수
+      var msg = 'ERROR<br><br>';
+      msg += '<strong>request.status</strong><br>'+request.status + '<hr>';
+      msg += '<strong>error</strong><br>'+error + '<hr>';
+      console.log(msg);
+    }
+  });
+
+}
+
+  
+</script>
+</head> 
+<body>
+  <DIV id='menu' style='margin: 10px auto; padding: 10px; border: solid 1px #00AA00; width: 50%;'>
+    <button type="button" id="btn_send">Ajax JSON 요청</button>
+  </DIV>
+</body>
+ 
+</html>

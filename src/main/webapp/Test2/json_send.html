@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/JavaScript"
+        src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<link href="../css/style.css" rel="Stylesheet" type="text/css">
+<script type="text/javascript">
+  $(function() {
+     $('#btn_send').on('click',send);
+  });
+   
+  // jQuery ajax 요청
+  function send() {
+   var params = $('#frm').serialize(); // 직렬화, 폼의 데이터를 키와 값의 구조로 조합
+  $.ajax({
+    url: './stu_proc.jsp',
+    type: 'get',  // get
+    cache: false, // 응답 결과 임시 저장 취소
+    async: true,  // true: 비동기 통신
+    dataType: 'json', // 응답 형식: json, html, xml...
+    data: params,      // 데이터
+    success: function(rdata) { // 응답이 온경우
+        
+        var str = '';
+            str += '이름: ' + rdata.name + '\n';
+            str += '상품:' + rdata.product + '\n';
+            str += '가격:' + rdata.price;
+            
+            console.log(str);
+    },
+    // Ajax 통신 에러, 응답 코드가 200이 아닌경우, dataType이 다른경우 
+    error: function(request, status, error) { // callback 함수
+      var msg = 'ERROR\n';
+      msg += 'request.status: '+request.status + '\n';
+      msg += 'error'+error + '\n';
+      console.log(msg);
+    }
+  });
+}
+</script>
+</head>
+<body>
+<DIV class='container'>
+<DIV class='content'>
+<br><br>
+
+<form name='frm' id='frm'>
+    성명  : <input type='text' name='name' id='name' value='유용준'> <br>
+    상품 : <input type='text' name='product' id='product' value='인도네시아 만델링'> <br>
+    가격 : <input type='number' name='price' id='price' min='0' max='99999' step='100' value='3500'> <br>
+  <button type="button" id="btn_send">확인</button>
+</form>
+ 
+</DIV> <!-- content END -->
+</DIV> <!-- container END -->
+</body>
+</html>
